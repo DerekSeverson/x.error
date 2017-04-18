@@ -1,0 +1,34 @@
+{
+  "name": "x.error",
+  "version": "1.0.0",
+  "description": "An Extendable, Improved Javascript Error",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha || 0"
+  },
+  "engines": {
+    "node": ">=4.8.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DerekSeverson/x.error.git"
+  },
+  "keywords": [
+    "error"
+  ],
+  "author": "Derek Severson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DerekSeverson/x.error/issues"
+  },
+  "homepage": "https://github.com/DerekSeverson/x.error#readme",
+  "dependencies": {
+    "http-status": "^1.0.1",
+    "iz.js": "^1.0.0",
+    "to-snake-case": "^1.0.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  }
+}
