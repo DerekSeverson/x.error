@@ -4,6 +4,7 @@ const is = require('iz.js');
 const toSnakeCase = require('to-snake-case');
 const httpStatus = require('http-status');
 
+const MAX_RECURSION = 3;
 const MAX_TAG_LENGTH = 128;
 const isAcceptableTag = (tag) => is.string(tag) && tag.length <= MAX_TAG_LENGTH;
 const isHttpStatus = (status) => is.integer(status) && (status in httpStatus);
@@ -25,6 +26,8 @@ class XError extends Error {
   constructor (config) {
     super();
 
+    this.xerror = true;
+    
     if (!is.existy(config)) {
       config = {};
     }
@@ -48,6 +51,10 @@ class XError extends Error {
     } else {
       this.message = 'generic error';
     }
+    
+    if (config.errors) { // used for validation details
+      this.errors = config.errors;
+    }
 
     if (isHttpStatus(config.status)) {
       this.status = config.status;
@@ -66,6 +73,33 @@ class XError extends Error {
     }
 
     Error.captureStackTrace(this, this.constructor);
+  }
+  
+  toJSON(err) {
+    return XError.toJSON(this);
+  }
+  
+  static toJSON(err, recursed) {
+    
+    if (!is.error(err)) {
+      return null;
+    }
+
+    let ret = Object.assign({}, err, {
+      name: err.name,
+      message: err.message,
+      stack: err.stack,
+    });
+
+    if (!is.integer(recursed) || recursed > MAX_RECURSION) {
+      recursed = MAX_RECURSION;
+    }
+
+    if (is.error(ret.cause) && recursed > 0) {
+      ret.cause = XError.toJSON(ret.cause, recursed - 1);
+    }
+
+    return ret; 
   }
 
   static decorate(err, config) {
