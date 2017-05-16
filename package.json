@@ -4,7 +4,7 @@
   "description": "An Extendable, Improved Javascript Error",
   "main": "index.js",
   "scripts": {
-    "test": "mocha || 0"
+    "test": "mocha || true"
   },
   "engines": {
     "node": ">=4.8.2"
