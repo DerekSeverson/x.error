@@ -17,7 +17,7 @@ describe('XError', function () {
     let err = new XError({
       name: 'MyCustomError',
       message: 'Just Some Custom Error',
-      code: true,
+      code: 'MY_CUSTOM_ERROR_WITH_XERROR',
       status: 400,
       cause: bad,
       data: {
@@ -31,7 +31,7 @@ describe('XError', function () {
     assert.instanceOf(err, XError);
     assert.propertyVal(err, 'name', 'MyCustomError');
     assert.propertyVal(err, 'message', 'Just Some Custom Error');
-    assert.propertyVal(err, 'code', 'my_custom_error');
+    assert.propertyVal(err, 'code', 'MY_CUSTOM_ERROR_WITH_XERROR');
     assert.propertyVal(err, 'status', 400);
     assert.propertyVal(err, 'cause', bad);
     assert.property(err, 'data');

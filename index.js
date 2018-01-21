@@ -1,7 +1,6 @@
 'use strict';
 
 const is = require('iz.js');
-const toSnakeCase = require('to-snake-case');
 const httpStatus = require('http-status');
 
 const MAX_RECURSION = 3;
@@ -27,31 +26,30 @@ class XError extends Error {
     super();
 
     this.xerror = true;
-    
+
     if (!is.existy(config)) {
       config = {};
     }
 
     if (is.string(config.name)) {
       this.name = config.name;
-    } else {
+    } else if (this.constructor.name !== 'XError') {
       this.name = this.constructor.name;
+    } else {
+      this.name = 'Error';
     }
-
-    if (is.string(config.code) || (is.positive(config.code) && is.integer(config.code))) {
-      this.code = config.code;
-    } else if (this.name !== 'XError' && config.code === true) {
-      this.code = toSnakeCase(this.name);
-    }
-
     if (is.string(config.msg)) {
       this.message = config.msg;
     } else if (is.string(config.message)) {
       this.message = config.message;
     } else {
-      this.message = 'generic error';
+      this.message = '';
     }
-    
+
+    if (is.string(config.code) || (is.positive(config.code) && is.int(config.code))) {
+      this.code = config.code;
+    }
+
     if (config.errors) { // used for validation details
       this.errors = config.errors;
     }
@@ -74,13 +72,13 @@ class XError extends Error {
 
     Error.captureStackTrace(this, this.constructor);
   }
-  
+
   toJSON(err) {
     return XError.toJSON(this);
   }
-  
+
   static toJSON(err, recursed) {
-    
+
     if (!is.error(err)) {
       return null;
     }
@@ -99,7 +97,7 @@ class XError extends Error {
       ret.cause = XError.toJSON(ret.cause, recursed - 1);
     }
 
-    return ret; 
+    return ret;
   }
 
   static decorate(err, config) {

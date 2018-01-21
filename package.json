@@ -6,6 +6,9 @@
   "scripts": {
     "test": "mocha || true"
   },
+  "files": [
+    "index.js"
+  ],
   "engines": {
     "node": ">=4.8.2"
   },
@@ -24,8 +27,7 @@
   "homepage": "https://github.com/DerekSeverson/x.error#readme",
   "dependencies": {
     "http-status": "^1.0.1",
-    "iz.js": "^1.0.0",
-    "to-snake-case": "^1.0.0"
+    "iz.js": "^1.0.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
